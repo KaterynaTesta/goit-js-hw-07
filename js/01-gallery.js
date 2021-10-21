@@ -3,27 +3,29 @@ import { galleryItems } from './gallery-items.js';
 
 console.log(galleryItems);
 const gallerySet = document.querySelector('.gallery');
-const createGalleryItem = renderGallery(galleryItems);
+const galleryMarkup = renderGallery(galleryItems);
+
+gallerySet.insertAdjacentHTML('beforeend', galleryMarkup);
 gallerySet.addEventListener('click', onModalIsOpen);
 
 function renderGallery(items) {
     return items
         .map(
-            item =>
+            ({ original, preview, description }) =>
                 `<div class="gallery__item">
-                <a class="gallery__link" href='${item.original}'>
-                    <img
-                        class="gallery__image"
-                        src='${item.preview}'
-                        data-source='${item.original}'
-                        alt="Hokkaido Flower"
-                    />
-                </a>
-            </div>`,
+            <a class="gallery__link" href="${original}">
+                <img
+                    class="gallery__image"
+                    src="${preview}"
+                    data-source="${original}"
+                    alt="${description}"
+                />
+             </a>
+        </div>`,
         )
-        .join('');
-    gallerySet.insertAdjacentHTML('beforeend', markUpGallerry);
+        .join(' ');
 }
+
 function onModalIsOpen(event) {
     event.preventDefault();
     window.addEventListener('keydown', onModalIsClosed);
